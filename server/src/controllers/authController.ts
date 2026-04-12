@@ -39,8 +39,9 @@ export const signUp = async (req: Request, res: Response) => {
       user,
     });
   } catch (error) {
-    return res.status(500).json({ error });
-  }
+  console.error("SIGNUP ERROR:", error); // 👈 IMPORTANT
+  return res.status(500).json({ error: "auth problem" });
+}
 };
 
 
@@ -82,7 +83,8 @@ export const login = async (req: Request, res: Response) => {
     });
 
   } catch (error) {
-    return res.status(500).json({ error });
+    console.error("SIGNUP ERROR:", error); // 👈 IMPORTANT
+  return res.status(500).json({ error: "auth problem" });
   }
 };
 
