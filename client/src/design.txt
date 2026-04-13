@@ -1,0 +1,6 @@
+Primary → #10B981 
+Secondary → #059669
+Accent → #3B82F6 
+Background → #FFFFFF
+Surface → #F3F4F6
+Text → #1F2937
