@@ -180,7 +180,7 @@ useEffect(() => {
           {/* Button */}
           <button
             type="submit"
-            className="w-full bg-black text-white py-2 rounded-lg hover:opacity-90 transition"
+            className="w-full bg-[#059669] text-white py-2 rounded-lg hover:opacity-90 transition"
           >
             {isLogin ? "Login" : "Register"}
           </button>

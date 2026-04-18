@@ -5,10 +5,11 @@ import { connectDB } from "./config/db";
 import authRouter from "./routes/authRoutes";
 import cookieParser from "cookie-parser";
 
+import mongoose from "mongoose";
+
 dotenv.config();
 
 const app = express();
-
 app.use(express.json());
 app.use(cookieParser());
 

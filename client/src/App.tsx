@@ -4,6 +4,9 @@ import NavBar from "./components/NavBar"
 import AuthPage from "./pages/AuthPage"
 import { Routes, Route } from "react-router-dom"
 import Home from "./pages/Home"
+import Profile from "./pages/Profile"
+
+
 
 function App() {
   return (
@@ -12,6 +15,9 @@ function App() {
       <Routes>
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile/>} />
+        {/* <Route path="/" element={<Home />} /> */}
+        
       </Routes>
     </>
 

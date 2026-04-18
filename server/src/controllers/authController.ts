@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { User } from "../models/userModel";
 import bcrypt from "bcrypt";
 import { generateToken } from "../util/tokenGen";
+import {  deleteMediaFromCloudinary, uploadMedia } from "../config/cloudinary";
 
 export const signUp = async (req: Request, res: Response) => {
   try {
@@ -101,6 +102,74 @@ export const logout = async (req: Request, res: Response) => {
     });
 
   } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
+export const getProfile = async (req: Request, res: Response) => {
+  try {
+  const userId = req.userId;
+  if(!userId)return res.status(401).json({ message:"token verify failed !" });
+
+  const user = await User.findById(userId).select("-password");
+
+  res.status(200).json({ user});
+  } catch (error) {
+    console.log("get profile :error",error);
+    return res.status(500).json({ error });
+  }
+};
+
+export const updateProfile = async (req: Request, res: Response) => {
+  try {
+    const userId = req.userId;
+
+    if (!userId) {
+      return res.status(401).json({ message: "token verify failed !" });
+    }
+
+    const { name } = req.body;
+    const profilePic = req.file;
+
+    if (!profilePic) {
+      return res.status(400).json({ message: "Profile picture is required" });
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "USER NOT FOUND" });
+    }
+
+    // delete old image
+    if (user.profilePicture) {
+      const publicId = user.profilePicture.split("/").pop()?.split(".")[0];
+      if (publicId) {
+        await deleteMediaFromCloudinary(publicId);
+      }
+    }
+
+    // upload new image
+    const cloudResponse = await uploadMedia(profilePic.path);
+    const updatedProfilePicUrl = cloudResponse?.secure_url;
+
+    const updatedData = {
+      name,
+      profilePicture: updatedProfilePicUrl,
+    };
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      updatedData,
+      { new: true }
+    ).select("-password");
+
+    return res.status(200).json({
+      message: "profile updated successfully",
+      user: updatedUser,
+    });
+
+  } catch (error) {
+    console.log("update profile error:", error);
     return res.status(500).json({ error });
   }
 };

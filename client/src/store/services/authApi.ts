@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+
 export interface User {
   _id: string;
   name: string;
@@ -32,7 +33,7 @@ export const authApi = createApi({
 
   endpoints: (builder) => ({
     login: builder.mutation<AuthResponse, LoginRequest>({
-      query: (body) => ({  
+      query: (body) => ({
         url: "/login",
         method: "POST",
         body,
@@ -40,7 +41,7 @@ export const authApi = createApi({
     }),
 
     signup: builder.mutation<AuthResponse, SignupRequest>({
-      query: (body) => ({   
+      query: (body) => ({
         url: "/signup",
         method: "POST",
         body,
@@ -48,12 +49,31 @@ export const authApi = createApi({
     }),
 
     logout: builder.mutation<{ message: string }, void>({
-      query: () => ({       
+      query: () => ({
         url: "/logout",
         method: "GET",
       }),
     }),
+    profile: builder.query<any, void>({
+      query: () => (
+        {
+          url: "/profile",
+          method: "GET",
+
+        }
+      )
+    }),
+    updateProfile: builder.mutation<{ user: any }, FormData>({
+      query: (formData) => (
+        {
+          url: "profile/update",
+          method: "POST",
+          body: formData
+        }
+      ),
+    })
   }),
+
 });
 
-export const {useLoginMutation,useLogoutMutation,useSignupMutation} = authApi;
+export const { useLoginMutation, useLogoutMutation, useSignupMutation, useProfileQuery, useUpdateProfileMutation } = authApi;
