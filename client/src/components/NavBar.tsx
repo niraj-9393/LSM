@@ -24,6 +24,7 @@ import { useEffect } from 'react';
 
 function NavBar() {
     const user = useSelector((state: RootState) => state.auth.user);
+   
     const [
         logout,
         {
@@ -74,7 +75,7 @@ function NavBar() {
                         <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="icon" className="rounded-full ">
                                 <Avatar>
-                                    <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
+                                    <AvatarImage src={user?.profilePicture || "https://github.com/shadcn.png"} alt="shadcn" />
                                     <AvatarFallback>CN</AvatarFallback>
                                 </Avatar>
                             </Button>
@@ -83,7 +84,7 @@ function NavBar() {
                         <DropdownMenuContent>
                             <DropdownMenuGroup>
                                 <DropdownMenuLabel >My Account</DropdownMenuLabel>
-                                <DropdownMenuItem  onClick={()=>navigate("/profile")}>Profile</DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => navigate("/profile")}>Profile</DropdownMenuItem>
                                 <DropdownMenuItem>My Courses</DropdownMenuItem>
                                 <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
                             </DropdownMenuGroup>
@@ -94,7 +95,7 @@ function NavBar() {
                 ) : (
                     <div className="flex gap-2" >
                         <Button onClick={() => navigate("/auth?mode=login")} variant={'outline'}>Login</Button>
-                        <Button className = "bg-[#059669]" onClick={() => navigate("/auth?mode=signup")}>Signup</Button>
+                        <Button className="bg-[#059669]" onClick={() => navigate("/auth?mode=signup")}>Signup</Button>
                     </div>
                 )}
             </div>

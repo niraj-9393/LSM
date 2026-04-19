@@ -16,107 +16,37 @@ export default function AuthPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-const [
-  login,
-  {
-    isLoading: isLoginLoading,
-    isError: isLoginError,
-    isSuccess: isLoginSuccess,
-    data: loginData,
-    error: loginError
-  }
-] = useLoginMutation();
-
-const [
-  signup,
-  {
-    isLoading: isSignUpLoading,
-    isError: isSignUpError,
-    isSuccess: issignUpSuccess,
-    data: signupData,
-    error: signupError
-  }
-] = useSignupMutation();
+const [login] = useLoginMutation();
+const [signup] = useSignupMutation();
  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value })
 
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      if (isLogin) {
-        const res = await login({
-          email: form.email,
-          password: form.password
-        }).unwrap();
-        console.log(res);
-        dispatch(setUser(res.user))
-        navigate("/")
-      } else {
-        const res = await signup({
-          name: form.name,
-          email: form.email,
-          password: form.password
 
-        }).unwrap();
-        console.log(res);
-        dispatch(setUser(res.user))
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("Auth error:", error);
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  try {
+    if (isLogin) {
+      const toastId = toast.loading("Logging in...");
+      const res = await login({ email: form.email, password: form.password }).unwrap();
+      dispatch(setUser(res.user));
+      toast.success(res.message || "Login successful 🎉", { id: toastId });
+      navigate("/");
+    } else {
+      const toastId = toast.loading("Creating account...");
+      const res = await signup({ name: form.name, email: form.email, password: form.password }).unwrap();
+      dispatch(setUser(res.user));
+      toast.success(res.message || "Account created 🎉", { id: toastId });
+      navigate("/");
     }
+  } catch (error: any) {
+    toast.error(error?.data?.message || "Something went wrong ❌");
   }
+};
 
 
-useEffect(() => {
-
-  if (isLoginLoading) {
-    toast.loading("Logging in...", { id: "login" });
-  }
-
-  if (isLoginSuccess) {
-    toast.success(loginData?.message || "Login successful 🎉", { id: "login" });
-  }
-
-  if (isLoginError) {
-    toast.error(
-      (loginError as any)?.data?.message || "Login failed ❌",
-      { id: "login" }
-    );
-  }
-
-  // 📝 SIGNUP
-  if (isSignUpLoading) {
-    toast.loading("Creating account...", { id: "signup" });
-  }
-
-  if (issignUpSuccess) {
-    toast.success(
-      signupData?.message || "Account created 🎉",
-      { id: "signup" }
-    );
-  }
-
-  if (isSignUpError) {
-    toast.error(
-      (signupError as any)?.data?.message || "Signup failed ❌",
-      { id: "signup" }
-    );
-  }
-
-}, [
-  isLoginError,
-  isLoginLoading,
-  isLoginSuccess,
-  isSignUpError,
-  isSignUpLoading,
-  issignUpSuccess,
-  loginData,
-  signupData
-]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">

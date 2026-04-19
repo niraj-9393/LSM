@@ -5,6 +5,9 @@ export interface User {
   _id: string;
   name: string;
   email: string;
+  role?: string;              
+  profilePicture?: string;    
+  enrolledCourses?: any[];    
 }
 
 interface AuthResponse {
@@ -54,7 +57,7 @@ export const authApi = createApi({
         method: "GET",
       }),
     }),
-    profile: builder.query<any, void>({
+    profile: builder.query<AuthResponse, void>({
       query: () => (
         {
           url: "/profile",
