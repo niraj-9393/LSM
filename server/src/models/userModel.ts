@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-import IUser from "../types/userType";
-
+import {IUser} from "../types/type";
 const userSchema = new mongoose.Schema<IUser>(
   {
     name: {
@@ -31,6 +30,7 @@ const userSchema = new mongoose.Schema<IUser>(
       enum: ["student", "instructor"],
       default: "student",
     }
+
   },
   { timestamps: true }
 );
