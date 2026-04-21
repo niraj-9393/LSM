@@ -14,12 +14,12 @@ import { upload } from "../middleware/upload";
 
 const courseRouter = express.Router();
 
-courseRouter.get("/my-courses", isAuth, getCourses);
-courseRouter.post("/create", isAuth, createCourse);
-courseRouter.put("/edit/:courseId", isAuth, upload.single("thumbnail"), editCourse);
-courseRouter.patch("/toggle/:courseId", isAuth, toggleIsPublished);
-courseRouter.delete("/delete/:courseId", isAuth, deleteCourse);
-courseRouter.get("/published", getPublishedCourse);
+courseRouter.get("/my-courses", isAuth, getCourses);////
+courseRouter.post("/create", isAuth, createCourse);////
+courseRouter.post("/edit/:courseId", isAuth, upload.single("thumbnail"), editCourse);///
+courseRouter.post("/toggle/:courseId", isAuth, toggleIsPublished);///
+courseRouter.post("/delete/:courseId", isAuth, deleteCourse);
+courseRouter.get("/published", getPublishedCourse);/////
 
 
 export default courseRouter;

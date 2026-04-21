@@ -6,6 +6,7 @@ import authRouter from "./routes/authRoutes";
 import cookieParser from "cookie-parser";
 
 import mongoose from "mongoose";
+import courseRouter from "./routes/courseRoutes";
 
 dotenv.config();
 const app = express();
@@ -22,7 +23,7 @@ app.use(
 connectDB();
 
 app.use("/api/auth", authRouter);
-
+app.use("/api/course",courseRouter)
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {

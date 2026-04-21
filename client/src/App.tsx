@@ -12,6 +12,10 @@ import { useProfileQuery } from "./store/services/authApi"
 import { clearUser, setUser } from "./store/authSlice"
 import type { RootState } from "./store/store";
 import { Loader2 } from "lucide-react"
+import ApplyInstructor from "./pages/ApplyInstructor"
+import DashBoard from "./pages/admin/DashBoard"
+import Courses from "./pages/admin/Courses"
+import Statistics from "./pages/admin/Statistics"
 
 
 function App() {
@@ -25,11 +29,11 @@ function App() {
 
   const { isAuth } = useSelector((state: RootState) => state.auth);
 
-if (isLoading) return (
-  <div className="flex items-center justify-center h-screen">
-    <Loader2 className="w-10 h-10 animate-spin text-blue-500" />
-  </div>
-);
+  if (isLoading) return (
+    <div className="flex items-center justify-center h-screen">
+      <Loader2 className="w-10 h-10 animate-spin text-blue-500" />
+    </div>
+  );
 
   return (
     <>
@@ -39,13 +43,18 @@ if (isLoading) return (
           <>
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/apply-instructor" element={<ApplyInstructor />} />
+            <Route path="/dashboard" element={<DashBoard />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/statistics" element={<Statistics />} />
             <Route path="*" element={<Navigate to="/" />} />
           </>
         ) : (
-          
+
           <>
+            <Route path="/" element={<Home />} />
             <Route path="/auth" element={<AuthPage />} />
-            <Route path="*" element={<Navigate to="/auth" />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </>
         )}
       </Routes>

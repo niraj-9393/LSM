@@ -1,5 +1,5 @@
 import express from "express";
-import { getProfile, login, logout, signUp, updateProfile } from "../controllers/authController";
+import { becomeInstructor, getProfile, login, logout, signUp, updateProfile } from "../controllers/authController";
 import { isAuth } from "../middleware/isAuth";
 import { upload } from "../middleware/upload";
 
@@ -10,4 +10,5 @@ authRouter.post("/signup",signUp);
 authRouter.get("/logout",logout);
 authRouter.get("/profile",isAuth,getProfile)
 authRouter.post("/profile/update",isAuth,upload.single("profilePic"),updateProfile);
+authRouter.patch("/become-instructor",isAuth,becomeInstructor)
 export default authRouter;

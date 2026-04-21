@@ -24,7 +24,7 @@ import { useEffect } from 'react';
 
 function NavBar() {
     const user = useSelector((state: RootState) => state.auth.user);
-   
+
     const [
         logout,
         {
@@ -60,7 +60,7 @@ function NavBar() {
     const handleLogout = async () => {
         await logout().unwrap();
         dispatch(clearUser());
-        navigate("/auth");
+        navigate("/");
     };
 
     return (
@@ -89,7 +89,17 @@ function NavBar() {
                                 <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
                             </DropdownMenuGroup>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>ABOUT</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            {user?.role === 'student' && (
+                                <DropdownMenuItem onClick={() => navigate("/apply-instructor")}>
+                                    to Instructor
+                                </DropdownMenuItem>
+                            )}
+                            {user?.role === 'instructor' && (
+                                <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+                                    Dashboard
+                                </DropdownMenuItem>
+                            )}
                         </DropdownMenuContent>
                     </DropdownMenu>
                 ) : (

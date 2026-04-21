@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { User } from "../models/userModel";
 import bcrypt from "bcrypt";
 import { generateToken } from "../util/tokenGen";
-import {  deleteMediaFromCloudinary, uploadMedia } from "../config/cloudinary";
+import { deleteMediaFromCloudinary, uploadMedia } from "../config/cloudinary";
 
 export const signUp = async (req: Request, res: Response) => {
   try {
@@ -40,9 +40,9 @@ export const signUp = async (req: Request, res: Response) => {
       user,
     });
   } catch (error) {
-  console.error("SIGNUP ERROR:", error); // 👈 IMPORTANT
-  return res.status(500).json({ error: "auth problem" });
-}
+    console.error("SIGNUP ERROR:", error); // 👈 IMPORTANT
+    return res.status(500).json({ error: "auth problem" });
+  }
 };
 
 
@@ -85,7 +85,7 @@ export const login = async (req: Request, res: Response) => {
 
   } catch (error) {
     console.error("SIGNUP ERROR:", error); // 👈 IMPORTANT
-  return res.status(500).json({ error: "auth problem" });
+    return res.status(500).json({ error: "auth problem" });
   }
 };
 
@@ -94,7 +94,7 @@ export const logout = async (req: Request, res: Response) => {
   try {
     res.cookie("token", "", {
       httpOnly: true,
-      expires: new Date(0), 
+      expires: new Date(0),
     });
 
     return res.status(200).json({
@@ -107,14 +107,14 @@ export const logout = async (req: Request, res: Response) => {
 };
 export const getProfile = async (req: Request, res: Response) => {
   try {
-  const userId = req.userId;
-  if(!userId)return res.status(401).json({ message:"token verify failed !" });
+    const userId = req.userId;
+    if (!userId) return res.status(401).json({ message: "token verify failed !" });
 
-  const user = await User.findById(userId).select("-password");
+    const user = await User.findById(userId).select("-password");
 
-  res.status(200).json({ user});
+    res.status(200).json({ user });
   } catch (error) {
-    console.log("get profile :error",error);
+    console.log("get profile :error", error);
     return res.status(500).json({ error });
   }
 };
@@ -140,16 +140,16 @@ export const updateProfile = async (req: Request, res: Response) => {
       });
     }
 
-    
+
     const updateData: any = {};
 
     if (name) {
       updateData.name = name.trim();
     }
 
-  
+
     if (profilePic) {
-    
+
       if (user.profilePicture) {
         const publicId = user.profilePicture.split("/").pop()?.split(".")[0];
         if (publicId) {
@@ -185,5 +185,32 @@ export const updateProfile = async (req: Request, res: Response) => {
       message: "Something went wrong ❌",
       error
     });
+  }
+};
+export const becomeInstructor = async (req: Request, res: Response) => {
+  const userId = req.userId
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (user.role === 'instructor') {
+      return res.status(400).json({ message: "You are already an instructor" });
+    }
+
+
+    if (user.enrolledCourses.length > 0) {
+      return res.status(403).json({
+        message: "You cannot become an instructor because you have enrolled courses."
+      });
+    }
+
+    user.role = 'instructor';
+    await user.save();
+
+    res.json({ message: "You are now an instructor! 🎉", role: 'instructor' });
+  } catch (error) {
+    console.log("get profile :error", error);
+    return res.status(500).json({ error });
   }
 };

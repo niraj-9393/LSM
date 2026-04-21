@@ -74,9 +74,15 @@ export const authApi = createApi({
           body: formData
         }
       ),
-    })
+    }),
+    becomeInstructor: builder.mutation<{ message: string; role: string }, void>({
+    query: () => ({
+        url: '/become-instructor',
+        method: 'PATCH',
+    }),
+}),
   }),
 
 });
 
-export const { useLoginMutation, useLogoutMutation, useSignupMutation, useProfileQuery, useUpdateProfileMutation } = authApi;
+export const { useLoginMutation, useLogoutMutation, useSignupMutation, useProfileQuery, useUpdateProfileMutation ,useBecomeInstructorMutation} = authApi;
