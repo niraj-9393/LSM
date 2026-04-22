@@ -36,7 +36,7 @@ export const createCourse = async (req: Request, res: Response) => {
         if (!title || !subTitle) {
             return res.status(400).json({ message: "All fields are required" })
         }
-        const newCourse = await Course.create({ createdBy: userId, title, subTitle });
+        const newCourse = await Course.create({ createdBy: userId, title, subTitle});
 
         return res.status(200).json({ message: "course created ", course: newCourse })
 

@@ -4,19 +4,19 @@ const courseSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true
+       
     },
     subTitle: {
       type: String,
-      required: true
+       
     },
     description: {
       type: String,
-      required: true
+       
     },
     price: {
       type: Number,
-      required: true
+       
     },
     isPublished: {
       type: Boolean,
@@ -25,11 +25,11 @@ const courseSchema = new mongoose.Schema(
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true
+       
     },
     thumbnail: {
       type: String,
-      required: true
+       
     },
     lectures: [
       {
@@ -40,7 +40,7 @@ const courseSchema = new mongoose.Schema(
     level: {
       type: String,
       enum: ["beginner", "intermediate", "advanced"],
-      required: true
+       
     }
   },
   {

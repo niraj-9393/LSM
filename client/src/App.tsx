@@ -16,6 +16,8 @@ import ApplyInstructor from "./pages/ApplyInstructor"
 import DashBoard from "./pages/admin/DashBoard"
 import Courses from "./pages/admin/Courses"
 import Statistics from "./pages/admin/Statistics"
+import CreateCourse from "./pages/admin/CreateCourse"
+import CourseEdit from "./pages/admin/CourseEdit"
 
 
 function App() {
@@ -47,6 +49,8 @@ function App() {
             <Route path="/dashboard" element={<DashBoard />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/statistics" element={<Statistics />} />
+            <Route path="/course-edit/:courseId" element={<CourseEdit />} />
+            <Route path="/create_Course" element={<CreateCourse />} />
             <Route path="*" element={<Navigate to="/" />} />
           </>
         ) : (

@@ -19,7 +19,7 @@ courseRouter.post("/create", isAuth, createCourse);////
 courseRouter.post("/edit/:courseId", isAuth, upload.single("thumbnail"), editCourse);///
 courseRouter.post("/toggle/:courseId", isAuth, toggleIsPublished);///
 courseRouter.post("/delete/:courseId", isAuth, deleteCourse);
-courseRouter.get("/published", getPublishedCourse);/////
+courseRouter.get("/published", getPublishedCourse);
 
 
 export default courseRouter;
